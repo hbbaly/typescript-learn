@@ -1,15 +1,15 @@
 # typescript-learn
 
 
-## `typescript`
+## typescript
 
-### 安装`typrscript`
+### 安装 typrscript 
 
-    `npm i typescript -g`
+     npm i typescript -g 
 
-### 格式化`tsconfig.json`
+### 格式化 tsconfig.json
 
-    `tsc --init`
+    tsc --init
 
 ## demo1
 
