@@ -87,3 +87,15 @@ let sw = <Sw>{}
 sw.color = '#f60'
 
 sw.count = 20
+
+
+//  可以继承多个
+
+interface SS extends War,Mik {
+  count:number
+}
+let ss = <SS>{}
+ss.name = 'ss'
+ss.color= 'red'
+
+

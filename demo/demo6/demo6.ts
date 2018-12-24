@@ -27,3 +27,18 @@ function mix (params:number|string){
   return params.toString()  
 }
 
+
+// 当联合类型已经被赋值，会根据类型推测，来判断。
+
+
+let n :number|string
+
+n = 10
+
+n.toString()
+n.length  //类型“number”上不存在属性“length”
+
+n = 'hbb'   // n 为string，有length 属性
+n.length
+
+// params 制定了类型，只能使用共有的属性才不会报错。
