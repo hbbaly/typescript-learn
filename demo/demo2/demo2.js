@@ -10,6 +10,7 @@ var str = 'string';
 // 字符串模板
 var str1 = "this is " + str;
 console.log(str1);
+
 // Array
 // one method
 var arr = [1, 2, 3];
