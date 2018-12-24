@@ -42,3 +42,19 @@ n = 'hbb'   // n 为string，有length 属性
 n.length
 
 // params 制定了类型，只能使用共有的属性才不会报错。
+
+
+// 类型别名  ：类型别名用来给一个类型起个新名字。  
+// 使用 type 创建类型别名。
+type Name = string
+type NameResolver = () => string
+type NameOrResolve = Name | NameResolver
+function change (params:NameOrResolve):Name{
+  if(type of params === 'string'){
+    return params
+  }else{
+    return n()
+  }
+}
+
+
