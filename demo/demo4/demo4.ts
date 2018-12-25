@@ -10,7 +10,7 @@ class Greeter {
 }
 
 let greeter = new Greeter('world')
- console.log(greeter.greet())   // hello world
+console.log(greeter.greet())   // hello world
 
 
  // 继承
@@ -51,7 +51,7 @@ class Myclass {
 
 let inst = new Myclass()
 // 存取器要求你将编译器设置为输出ECMAScript 5或更高
-console.log(inst.prop)
+// console.log(inst.prop)
 inst.prop='hbb'
 
 
@@ -107,7 +107,7 @@ class MethodSec extends Method{
   }
 }
 
-console.log(MethodSec.getMethod())
+console.log(MethodSec.getMethod())  // hello, MethodSec
 
 // public,private, protected
 
@@ -129,11 +129,10 @@ class Age {
     return val
   }
   protected delAge():string{
-    this.ageN = null
     return 'delete'
   }
   setSex(val:string):string{
-    this.sex = val  // 无法分配到“sex”，因为它是常数或只读属性。 
+    // this.sex = val  // 无法分配到“sex”，因为它是常数或只读属性。 
     return val
   }
 }
@@ -146,12 +145,12 @@ let Nage = new Age(20)
 //   private时，它就不能在声明它的类的外部访问
 
 // protected protected成员在派生类中仍然可以访问
-console.log(Nage.age,Nage.name,'private')  // 20 undefined 'private'
+console.log(Nage.age,Nage.name, Nage.ageN,'private')  // 20 undefined 'private'
 console.log(Nage.getAge())  // 20
-console.log(Nage.setAge(25))  // 25
-console.log(Nage.delAge())  // Property 'delAge' is protected and only accessible within class 'Age' and its subclasses.
+// console.log(Nage.setAge(25),'private','hbb')  // 25
+// console.log(Nage.delAge())  // Property 'delAge' is protected and only accessible within class 'Age' and its subclasses.
 
-console.log(Age.age,'hbb')
+console.log(Age.age,'age')
 console.log(Age.getAge())
 console.log(Age.setAge(25)
 // console.log(Age.delAge())
@@ -179,3 +178,4 @@ class Son extends Father {
     return `${this.name} ${super.toString()}`
   }
 }
+export {}

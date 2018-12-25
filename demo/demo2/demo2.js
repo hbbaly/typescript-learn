@@ -24,6 +24,8 @@ var array = [1, 2, 3];
 var arr1 = [1, 'hbb'];
 // wrong 
 // let wrongArr1:[number,string] = ['hbb',1]
+
+
 // 枚举 enum
 // 默认情况下，从0开始为元素编号。 你也可以手动的指定成员的数值。 例如，我们将上面的例子改成从 1开始编号：
 var Color;
