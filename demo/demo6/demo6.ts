@@ -50,10 +50,10 @@ type Name = string
 type NameResolver = () => string
 type NameOrResolve = Name | NameResolver
 function change (params:NameOrResolve):Name{
-  if(type of params === 'string'){
+  if(typeof params === 'string'){
     return params
   }else{
-    return n()
+    return params()
   }
 }
 

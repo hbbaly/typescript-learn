@@ -333,3 +333,93 @@
       }
     }
     ```
+ 
+  ## demo5  类型推论
+
+  类型推论： TypeScript 会在没有明确的指定类型的时候推测出一个类型，这就是类型推论。
+
+    ```
+    let age = 20
+
+    age = 'hbb'   /// 不能将类型“"hbb"”分配给类型“number”
+
+    ```
+
+- 如果定义的时候没有赋值，不管之后有没有赋值，都会被推断成 any 类型而完全不被类型检查
+
+
+  ```
+  let cut    // 推断为any类型，所以下面不报错
+  cut = 'afv'
+  cut = 20
+  cut = false
+  ```
+
+    ```
+    function add(params:number) {
+      return 'hbb'
+    }
+    add(5)
+    ```
+
+    可以得出我们传入一个数字，没有制定函数返回的类型，但是typescript根据返回的值自动推测出返回的类型。
+
+## demo6  联合类型
+
+    表示取值可以为多种类型中的一种，联合类型使用 | 分隔每个类型。
+
+  ```
+  let params : number|string
+
+  params = 20
+
+  params = 'hbb'
+
+  params = false   // 不能将类型“false”分配给类型“string | number”
+  ```
+
+  当 TypeScript 不确定一个联合类型的变量到底是哪个类型的时候，我们只能访问此联合类型的所有类型里共有的属性或方法。
+
+  ```
+  function mix (params:number|string){
+    // return params.length   //类型“string | number”上不存在属性“length”。
+  类型“number”上不存在属性“length”。
+
+    // return params.substr(0,1)   // 类型“string | number”上不存在属性“substr”。类型“number”上不存在属性“substr”。
+
+    return params.toString()  
+  }
+  ```
+
+  当联合类型已经被赋值，会根据类型推测，来判断。
+  ```
+  let n :number|string
+
+  n = 10
+
+  n.toString()
+  n.length  //类型“number”上不存在属性“length”
+
+  n = 'hbb'   // n 为string，有length 属性
+  n.length
+  ```
+
+
+
+  **类型别名**  ：类型别名用来给一个类型起个新名字。
+
+  ```
+  type Name = string
+  type NameResolver = () => string
+  type NameOrResolve = Name | NameResolver
+
+  function change (params:NameOrResolve):Name{
+
+    if(typeof params === 'string'){
+      return params
+    }else{
+      return params()
+    }
+    
+  }
+  ```
