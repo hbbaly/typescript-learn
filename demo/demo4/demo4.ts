@@ -119,22 +119,6 @@ class Age {
   public constructor(theAge:number){
     this.age = theAge
   }
-  public getAge():number{
-    this.ageN = 30
-    console.log(this.ageN,'protected')
-    return this.age
-  }
-  private setAge(val:number):number{
-    this.age = val
-    return val
-  }
-  protected delAge():string{
-    return 'delete'
-  }
-  setSex(val:string):string{
-    // this.sex = val  // 无法分配到“sex”，因为它是常数或只读属性。 
-    return val
-  }
 }
 
 let Nage = new Age(20)
@@ -145,15 +129,7 @@ let Nage = new Age(20)
 //   private时，它就不能在声明它的类的外部访问
 
 // protected protected成员在派生类中仍然可以访问
-console.log(Nage.age,Nage.name, Nage.ageN,'private')  // 20 undefined 'private'
-console.log(Nage.getAge())  // 20
-// console.log(Nage.setAge(25),'private','hbb')  // 25
-// console.log(Nage.delAge())  // Property 'delAge' is protected and only accessible within class 'Age' and its subclasses.
-
-console.log(Age.age,'age')
-console.log(Age.getAge())
-console.log(Age.setAge(25)
-// console.log(Age.delAge())
+console.log(Nage.age,Nage.name,Nage.ageN,'private')  // 20 '属性“name”为私有属性，只能在类“Age”中访问','属性“ageN”受保护，只能在类“Age”及其子类中访问', 'private'
 
 
 class Father {
@@ -171,7 +147,7 @@ class Father {
 class Son extends Father {
   name:string
   constructor(name:string){   
-    super(name)   //代表父类的构造函数  没有的话会报  派生类的构造函数必须包含 "super" 调用
+    // super(name)   //代表父类的构造函数  没有的话会报  派生类的构造函数必须包含 "super" 调用
     this.name = name
   }
   toString(){
