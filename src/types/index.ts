@@ -1,7 +1,7 @@
 export type Method =
   | 'get'
   | 'GET'
-  | 'psot'
+  | 'post'
   | 'POST'
   | 'delete'
   | 'Delete'

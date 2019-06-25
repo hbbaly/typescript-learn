@@ -33,6 +33,23 @@ router.get('/base/get', (req, res) => {
     msg: req.query
   })
 })
+router.post('/base/post', (req, res) => {
+  res.send ({
+    msg: req.body
+  })
+})
+router.post('/base/buffer', function(req, res) {
+  let msg = []
+  req.on('data', (chunk) => {
+    if (chunk) {
+      msg.push(chunk)
+    }
+  })
+  req.on('end', () => {
+    let buf = Buffer.concat(msg)
+    res.json(buf.toJSON())
+  })
+})
 app.use(router)
 const port = process.env.PORT || 8080
 module.exports = app.listen(port, () => {

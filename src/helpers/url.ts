@@ -1,4 +1,4 @@
-import {isDate, isObject, encode} from './utils'
+import {isDate, isPlainObject, encode} from './utils'
 export function buildURL (url: string, params?: any): string {
   // 不传params， url不做处理
   let parts:string[] = []
@@ -17,7 +17,7 @@ export function buildURL (url: string, params?: any): string {
     }
     values.forEach(val => {
       if (isDate(val)) val = val.toISOString()
-      if (isObject(val)) val = JSON.stringify(val)
+      if (isPlainObject(val)) val = JSON.stringify(val)
       parts.push(`${encode(key)} = ${encode(val)}`)
     })
   })
