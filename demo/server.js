@@ -28,6 +28,11 @@ router.get('/simple/get', (req, res) => {
     msg: 'axios simple'
   })
 })
+router.get('/base/get', (req, res) => {
+  res.send ({
+    msg: req.query
+  })
+})
 app.use(router)
 const port = process.env.PORT || 8080
 module.exports = app.listen(port, () => {
