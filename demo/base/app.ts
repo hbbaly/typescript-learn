@@ -60,6 +60,8 @@ axios({
   params: {
     bar: 'baz'
   }
+}).then(res => {
+  console.log(res, 'res3')
 })
 axios({
   method: 'post',
@@ -68,6 +70,8 @@ axios({
     a: 1,
     b: 2
   }
+}).then(res => {
+  console.log(res, 'res')
 })
 
 axios({
@@ -80,6 +84,8 @@ axios({
     a: 1,
     b: 2
   }
+}).then(res => {
+  console.log(res, 'res1')
 })
 
 const paramsString = 'q=URLUtils.searchParams&topic=api'
@@ -89,4 +95,6 @@ axios({
   method: 'post',
   url: '/base/post',
   data: searchParams
+}).then(res => {
+  console.log(res, 'res2')
 })

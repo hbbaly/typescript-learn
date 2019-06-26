@@ -21,3 +21,16 @@ export function processHeaders (headers: any, data: any): any {
   console.log(headers, 'lheader')
   return headers
 }
+export function parseResponseHeaders (headers: string): any {
+  let parseObject = Object.create(null)
+  if (!headers) return 
+
+  headers.split('\r\n').forEach(val => {
+    let [key, value] = val.split(':')
+    key = key.trim().toLowerCase()
+    if (!key) return
+    if (value) value = value.trim().toLowerCase()
+    parseObject[key] = value
+  })
+  return parseObject
+}
