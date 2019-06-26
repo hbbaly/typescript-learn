@@ -34,6 +34,7 @@ router.get('/base/get', (req, res) => {
   })
 })
 router.post('/base/post', (req, res) => {
+  console.log(req.body, 'hbb')
   res.send ({
     msg: req.body
   })
