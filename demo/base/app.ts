@@ -1,5 +1,6 @@
 import axios from '../../src/index'
-
+// 基本的get请求的各种传参形式处理
+// post请求的处理
 axios({
   method: 'get',
   url: '/base/get',
