@@ -1,5 +1,3 @@
-import { Tracing } from "trace_events";
-
 export type Method =
   | 'get'
   | 'GET'
@@ -18,7 +16,7 @@ export type Method =
 
 export type XMLHttpRequestResponseType  = "" | "arraybuffer" | "blob" | "document" | "json" | "text"
 export interface AxiosConfig {
-  url: string
+  url?: string
   method?: Method
   data?: any
   params?: any
@@ -44,3 +42,20 @@ export interface AxiosError extends Error{
   response: AxiosResponseConfig
   isAxiosError: boolean
 }
+// 给axios混合对象定义公共方法
+export interface Axios {
+  request(config: AxiosConfig):AxiosPromise
+  get(url: string, config?: AxiosConfig):AxiosPromise
+  head(url: string, config?: AxiosConfig):AxiosPromise
+  delete(url: string, config?: AxiosConfig):AxiosPromise
+  options(url: string, config?: AxiosConfig):AxiosPromise
+  post(url: string,data?: any, config?: AxiosConfig):AxiosPromise
+  put(url: string,data?: any, config?: AxiosConfig):AxiosPromise
+  patch(url: string,data?: any, config?: AxiosConfig):AxiosPromise
+}
+
+export interface AxiosInstance extends Axios {
+  (config: AxiosConfig): AxiosPromise
+  (url: string, config?: AxiosConfig): AxiosPromise
+}
+

@@ -7,7 +7,7 @@ export default function xhr(config: AxiosConfig): AxiosPromise {
     const request = new XMLHttpRequest()
 
     if (responseType) request.responseType = responseType
-    request.open(method.toUpperCase(), url, true)
+    request.open(method.toUpperCase(), url!, true)
     request.onerror = function handleError() {
       reject(createError(
         'Network Error',
