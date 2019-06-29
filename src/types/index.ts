@@ -24,15 +24,15 @@ export interface AxiosConfig {
   responseType?: XMLHttpRequestResponseType
   timeout?: number
 }
-export interface AxiosResponseConfig {
-  data: any
+export interface AxiosResponseConfig<T = any> {
+  data: T
   headers:any
   status: number
   statusText: string
   request: any
   config: AxiosConfig
 }
-export interface AxiosPromise extends Promise<AxiosResponseConfig> {
+export interface AxiosPromise<T = any> extends Promise<AxiosResponseConfig<T>> {
 
 }
 export interface AxiosError extends Error{
@@ -44,18 +44,17 @@ export interface AxiosError extends Error{
 }
 // 给axios混合对象定义公共方法
 export interface Axios {
-  request(config: AxiosConfig):AxiosPromise
-  get(url: string, config?: AxiosConfig):AxiosPromise
-  head(url: string, config?: AxiosConfig):AxiosPromise
-  delete(url: string, config?: AxiosConfig):AxiosPromise
-  options(url: string, config?: AxiosConfig):AxiosPromise
-  post(url: string,data?: any, config?: AxiosConfig):AxiosPromise
-  put(url: string,data?: any, config?: AxiosConfig):AxiosPromise
-  patch(url: string,data?: any, config?: AxiosConfig):AxiosPromise
+  request<T = any>(config: AxiosConfig):AxiosPromise<T>
+  get<T = any>(url: string, config?: AxiosConfig):AxiosPromise<T>
+  head<T = any>(url: string, config?: AxiosConfig):AxiosPromise<T>
+  delete<T = any>(url: string, config?: AxiosConfig):AxiosPromise<T>
+  options<T = any>(url: string, config?: AxiosConfig):AxiosPromise<T>
+  post<T = any>(url: string,data?: any, config?: AxiosConfig):AxiosPromise<T>
+  put<T = any>(url: string,data?: any, config?: AxiosConfig):AxiosPromise<T>
+  patch<T = any>(url: string,data?: any, config?: AxiosConfig):AxiosPromise<T>
 }
 
 export interface AxiosInstance extends Axios {
-  (config: AxiosConfig): AxiosPromise
-  (url: string, config?: AxiosConfig): AxiosPromise
+  <T = any>(config: AxiosConfig): AxiosPromise<T>
+  <T = any>(url: string, config?: AxiosConfig): AxiosPromise<T>
 }
-

@@ -18,7 +18,6 @@ export function processHeaders (headers: any, data: any): any {
       headers['Content-Type'] = 'application/json;charset=utf-8'
     }
   }
-  console.log(headers, 'lheader')
   return headers
 }
 export function parseResponseHeaders (headers: string): any {

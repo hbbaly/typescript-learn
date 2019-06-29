@@ -102,6 +102,17 @@ router.patch('/extend/patch', function (req, res){
     msg: '/extend/patch'
   })
 })
+router.get('/extend/user', function (req, res) {
+  res.send({
+    code: 200,
+    data:{
+      name: 'hbb',
+      age: 25,
+      message: 1
+    },
+    message: 'ok'
+  })
+})
 app.use(router)
 const port = process.env.PORT || 8080
 module.exports = app.listen(port, () => {
