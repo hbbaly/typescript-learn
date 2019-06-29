@@ -1,6 +1,25 @@
-import { AxiosConfig, AxiosPromise, Method} from '../types'
+import { AxiosConfig, AxiosPromise, Method, AxiosResponseConfig, ResolvedFn, RejectedFn} from '../types'
 import dispatchRequest from './dispatch';
+import AxiosInterceptorManager from './interceptor';
+// // Interceptors 类型拥有 2 个属性，一个请求拦截器管理类实例，一个是响应拦截器管理类实例。
+interface Interceptors{
+  request: AxiosInterceptorManager<AxiosConfig>
+  response: AxiosInterceptorManager<AxiosResponseConfig>
+}
+interface PromiseChain<T>{
+  resolved: ResolvedFn | ((config: AxiosConfig) => AxiosPromise)
+  rejected?: RejectedFn
+}
+// 实例化 Axios 类的时候，在它的构造器去初始化这个 interceptors 实例属性
 export default class Axios{
+  interceptors: Interceptors
+  constructor () {
+    this.interceptors= {
+      request: new AxiosInterceptorManager<AxiosConfig>(),
+      response: new AxiosInterceptorManager<AxiosResponseConfig>()
+
+    }
+  }
   request(url: any, config?: any):AxiosPromise{
     if (typeof url === 'string') {
       if (!config) config = {}
@@ -8,7 +27,28 @@ export default class Axios{
     } else {
       config = url
     }
-    return dispatchRequest(config)
+    // 构造一个 PromiseChain 类型的数组 chain, dispatchRequest 函数赋值给 resolved 属性
+    const chain: PromiseChain<any>[] = [
+      {
+        resolved: dispatchRequest,
+        rejected: undefined
+      }
+    ]
+    // 先遍历请求拦截器插入到 chain 的前面
+    this.interceptors.request.forEach(interceptor=> {
+      chain.unshift(interceptor)
+    })
+    //遍历响应拦截器插入到 chain 后面
+    this.interceptors.response.forEach(interceptor => {
+      chain.push(interceptor)
+    })
+    //一个已经 resolve 的 promise，循环这个 chain，拿到每个拦截器对象，把它们的 resolved 函数和 rejected 函数添加到 promise.then 的参数中
+    let promise = Promise.resolve(config)
+    while(chain.length) {
+      const {resolved, rejected} = chain.shift()!
+      promise = promise.then(resolved, rejected)
+    }
+    return promise
   }
   get(url: string, config?:AxiosConfig): AxiosPromise{
     return this._requestWithNoData('get', url, config)

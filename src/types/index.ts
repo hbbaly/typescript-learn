@@ -44,6 +44,10 @@ export interface AxiosError extends Error{
 }
 // 给axios混合对象定义公共方法
 export interface Axios {
+  interceptors: {
+    request: AxiosInterceptorManager<AxiosConfig>
+    response: AxiosInterceptorManager<AxiosResponseConfig>
+  }
   request<T = any>(config: AxiosConfig):AxiosPromise<T>
   get<T = any>(url: string, config?: AxiosConfig):AxiosPromise<T>
   head<T = any>(url: string, config?: AxiosConfig):AxiosPromise<T>
@@ -53,8 +57,19 @@ export interface Axios {
   put<T = any>(url: string,data?: any, config?: AxiosConfig):AxiosPromise<T>
   patch<T = any>(url: string,data?: any, config?: AxiosConfig):AxiosPromise<T>
 }
-
 export interface AxiosInstance extends Axios {
   <T = any>(config: AxiosConfig): AxiosPromise<T>
   <T = any>(url: string, config?: AxiosConfig): AxiosPromise<T>
+}
+// 定义AxiosInterceptorManager 泛型接口
+export interface AxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn, rejected?: RejectedFn): number
+
+  eject(id: number): void
+}
+export interface ResolvedFn<T = any> {
+  (val: T): T | Promise<T>
+}
+export interface RejectedFn {
+  (error: any): any
 }

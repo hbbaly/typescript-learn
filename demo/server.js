@@ -113,6 +113,9 @@ router.get('/extend/user', function (req, res) {
     message: 'ok'
   })
 })
+router.get('/interceptor/get', (req, res) => {
+  res.end('hello')
+})
 app.use(router)
 const port = process.env.PORT || 8080
 module.exports = app.listen(port, () => {
