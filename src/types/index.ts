@@ -16,6 +16,7 @@ export type Method =
 
 export type XMLHttpRequestResponseType  = "" | "arraybuffer" | "blob" | "document" | "json" | "text"
 export interface AxiosConfig {
+  [propName:string]: any
   url?: string
   method?: Method
   data?: any
@@ -44,6 +45,7 @@ export interface AxiosError extends Error{
 }
 // 给axios混合对象定义公共方法
 export interface Axios {
+  defaults: AxiosConfig
   interceptors: {
     request: AxiosInterceptorManager<AxiosConfig>
     response: AxiosInterceptorManager<AxiosResponseConfig>

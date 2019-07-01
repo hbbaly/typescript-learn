@@ -2,11 +2,12 @@ import { AxiosConfig, AxiosPromise, AxiosResponseConfig} from '../types'
 import xhr from '../xhr'
 import { buildURL } from '../helpers/url'
 import { transformRequest, transformResponse } from '../helpers/data'
-import { processHeaders } from '../helpers/headers'
+import { processHeaders, flattenHeaders } from '../helpers/headers'
 function processConfig (config: AxiosConfig): void {
   config.url = transformUrl(config)
   config.headers = transformHeaders(config)
   config.data  = transformData(config)
+  config.headers = flattenHeaders(config.headers, config.method!)
 }
 function transformUrl (config: AxiosConfig):string {
   const { url, params } = config

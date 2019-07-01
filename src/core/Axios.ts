@@ -1,6 +1,7 @@
 import { AxiosConfig, AxiosPromise, Method, AxiosResponseConfig, ResolvedFn, RejectedFn} from '../types'
 import dispatchRequest from './dispatch';
 import AxiosInterceptorManager from './interceptor';
+import mergeConfig from './mergeConfig';
 // // Interceptors 类型拥有 2 个属性，一个请求拦截器管理类实例，一个是响应拦截器管理类实例。
 interface Interceptors{
   request: AxiosInterceptorManager<AxiosConfig>
@@ -12,8 +13,10 @@ interface PromiseChain<T>{
 }
 // 实例化 Axios 类的时候，在它的构造器去初始化这个 interceptors 实例属性
 export default class Axios{
+  defaults: AxiosConfig
   interceptors: Interceptors
-  constructor () {
+  constructor (initDefaults: AxiosConfig) {
+    this.defaults = initDefaults
     this.interceptors= {
       request: new AxiosInterceptorManager<AxiosConfig>(),
       response: new AxiosInterceptorManager<AxiosResponseConfig>()
@@ -27,6 +30,8 @@ export default class Axios{
     } else {
       config = url
     }
+    // 合并config
+    config = mergeConfig(this.defaults, config)
     // 构造一个 PromiseChain 类型的数组 chain, dispatchRequest 函数赋值给 resolved 属性
     const chain: PromiseChain<any>[] = [
       {

@@ -1,5 +1,6 @@
 
-import { isPlainObject } from './utils'
+import { isPlainObject, deepMerge } from './utils'
+import { Method } from '../types';
 // 判断 原有的headers与标准headers
 function normalizaHeaders (headers: any, normalizaHeadersName: string): void{
   if (!headers) return
@@ -32,4 +33,20 @@ export function parseResponseHeaders (headers: string): any {
     parseObject[key] = value
   })
   return parseObject
+}
+
+export function flattenHeaders(headers: any, method: Method): any {
+  if (!headers) {
+    return headers
+  }
+  // 合并headers， headers.common,  headers[method]
+  headers = deepMerge(headers.common || {}, headers[method] || {}, headers)
+
+  const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common']
+  // 然后再把headers上的methodsToDelete中包含属性 删除
+  methodsToDelete.forEach(method => {
+    delete headers[method]
+  })
+
+  return headers
 }
