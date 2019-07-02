@@ -32,3 +32,25 @@ axios({
 }).then((res) => {
   console.log(res.data)
 })
+
+const instance = axios.create({
+  transformRequest: [(function(data) {
+    return qs.stringify(data)
+  }), ...(axios.defaults.transformRequest as Transformer[])],
+  transformResponse: [...(axios.defaults.transformResponse as Transformer[]), function(data) {
+    if (typeof data === 'object') {
+      data.age = 26
+    }
+    return data
+  }]
+})
+
+instance({
+  url: '/config/post',
+  method: 'post',
+  data: {
+    a: 10
+  }
+}).then((res) => {
+  console.log(res.data)
+})

@@ -71,6 +71,10 @@ export interface AxiosInterceptorManager<T> {
 
   eject(id: number): void
 }
+// create 函数可以接受一个 AxiosRequestConfig 类型的配置，作为默认配置的扩展，也可以接受不传参数
+export interface AxiosStatic extends AxiosInstance{
+  create(config?: AxiosConfig): AxiosInstance
+}
 export interface ResolvedFn<T = any> {
   (val: T): T | Promise<T>
 }
