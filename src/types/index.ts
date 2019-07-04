@@ -28,6 +28,7 @@ export interface AxiosConfig {
   transformRequest?: Transformer|Transformer[]
   transformResponse?: Transformer|Transformer[]
   cancelToken: CancelToken
+  withCredentials?: boolean
 }
 export interface AxiosResponseConfig<T = any> {
   data: T

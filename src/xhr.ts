@@ -3,7 +3,7 @@ import {parseResponseHeaders} from './helpers/headers'
 import { createError} from './helpers/error'
 export default function xhr(config: AxiosConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { url, data = null, method = 'get',headers = {}, responseType, timeout, cancelToken } = config
+    const { url, data = null, method = 'get',headers = {}, responseType, timeout, cancelToken, withCredentials } = config
     const request = new XMLHttpRequest()
 
     if (responseType) request.responseType = responseType
@@ -31,6 +31,7 @@ export default function xhr(config: AxiosConfig): AxiosPromise {
         reject(reason)
       })
     }
+    if (withCredentials) request.withCredentials = true
     request.onreadystatechange = function handle () {
       if (request.readyState !== 4 || request.status === 0) return
       const requestHeaders = parseResponseHeaders(request.getAllResponseHeaders())

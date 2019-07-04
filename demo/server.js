@@ -8,7 +8,7 @@ const WebpackConfig = require('./webpack.config')
 const app = express()
 const compiler = webpack(WebpackConfig)
 const router = express.Router()
-
+require('./server2')
 app.use(webpackDevMiddleware(compiler, {
   publicPath: '/__build__/',
   stats: {
@@ -122,10 +122,19 @@ router.post('/config/post', (req, res) => {
   })
 })
 router.get('/cancel/get', (req, res) => {
-  res.send('cancel')
+  setTimeout(() => {
+    res.send('cancel')
+  }, 1000)
 })
-router.post('/cancel/get', (req, res) => {
-  res.send('cancel')
+router.post('/cancel/post', (req, res) => {
+  setTimeout(() => {
+    res.send('cancel')
+  }, 1000)
+})
+router.get('/more/get', (req, res) => {
+  res.send({
+    name: 'hbbaly'
+  })
 })
 app.use(router)
 const port = process.env.PORT || 8080
