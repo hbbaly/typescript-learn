@@ -1,3 +1,4 @@
+
 export type Method =
   | 'get'
   | 'GET'
@@ -26,6 +27,7 @@ export interface AxiosConfig {
   timeout?: number
   transformRequest?: Transformer|Transformer[]
   transformResponse?: Transformer|Transformer[]
+  cancelToken: CancelToken
 }
 export interface AxiosResponseConfig<T = any> {
   data: T
@@ -74,6 +76,9 @@ export interface AxiosInterceptorManager<T> {
 // create 函数可以接受一个 AxiosRequestConfig 类型的配置，作为默认配置的扩展，也可以接受不传参数
 export interface AxiosStatic extends AxiosInstance{
   create(config?: AxiosConfig): AxiosInstance
+  CancelToken: CancelTokenStatic
+  Cancel: CancelStatic
+  isCancel: (value: any) => boolean
 }
 export interface ResolvedFn<T = any> {
   (val: T): T | Promise<T>
@@ -83,5 +88,33 @@ export interface RejectedFn {
 }
 export interface Transformer {
   (data: any, headers?: any) : any
+}
+
+export interface CancelToken {
+  promise: Promise<Cancel>
+  reason?: Cancel
+  throwIfRequested(): void
+}
+export interface Canceler {
+  (message?: string): void
+}
+export interface CancelExecutor {
+  (cancel:Canceler):void
+}
+export interface CancelTokenSource{
+  token: CancelToken
+  cancel: Canceler
+}
+export interface CancelTokenStatic {
+  new (executor: CancelExecutor): CancelToken
+  source(): CancelTokenSource
+}
+
+export interface Cancel {
+  message?: string
+}
+
+export interface CancelStatic {
+  new(message?: string): Cancel
 }
 

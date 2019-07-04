@@ -121,6 +121,12 @@ router.post('/config/post', (req, res) => {
     name: 'hbb'
   })
 })
+router.get('/cancel/get', (req, res) => {
+  res.send('cancel')
+})
+router.post('/cancel/get', (req, res) => {
+  res.send('cancel')
+})
 app.use(router)
 const port = process.env.PORT || 8080
 module.exports = app.listen(port, () => {

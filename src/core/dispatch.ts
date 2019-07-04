@@ -26,8 +26,14 @@ function transformResponseData(res: AxiosResponseConfig): AxiosResponseConfig {
   res.data = transform(res.data, res.headers, res.config.transformResponse)
   return res
 }
+function throwIfCancellationRequested (config: AxiosConfig): void {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested()
+  }
+}
 export default function dispatchRequest(config: AxiosConfig): AxiosPromise {
   // todo
+  throwIfCancellationRequested(config)
   processConfig(config)
   return xhr(config).then(res => {
     return transformResponseData(res)
