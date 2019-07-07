@@ -3,9 +3,10 @@ import {parseResponseHeaders} from './helpers/headers'
 import { createError} from './helpers/error'
 import { isSameOrigin } from './helpers/url';
 import cookie from './helpers/cookies';
+import { isFormData } from './helpers/utils';
 export default function xhr(config: AxiosConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { url, data = null, method = 'get',headers = {}, responseType, timeout, cancelToken, withCredentials,xsrfCookieName, xsrfHeaderName} = config
+    const { url, data = null, method = 'get',headers = {}, responseType, timeout, cancelToken, withCredentials,xsrfCookieName, xsrfHeaderName,onDownLoadProcess,onUploadProgress} = config
     const request = new XMLHttpRequest()
 
     if (responseType) request.responseType = responseType
@@ -33,6 +34,10 @@ export default function xhr(config: AxiosConfig): AxiosPromise {
         reject(reason)
       })
     }
+    // 请求的数据是 FormData 类型，我们应该主动删除请求 headers 中的 Content-Type 字段，让浏览器自动根据请求数据设置 Content-Type
+    if (isFormData(data)) {
+      delete headers['Content-Type']
+    }
     if (withCredentials) request.withCredentials = true
     if ((withCredentials || isSameOrigin(url!)) && xsrfCookieName) {
       const xsrfValue = cookie.read(xsrfCookieName)
@@ -40,6 +45,10 @@ export default function xhr(config: AxiosConfig): AxiosPromise {
         headers[xsrfHeaderName] = xsrfValue
       }
     }
+    if (onDownLoadProcess) {
+      request.onprogress = onDownLoadProcess
+    }
+    if (onUploadProgress) request.upload.onprogress = onUploadProgress
     request.onreadystatechange = function handle () {
       if (request.readyState !== 4 || request.status === 0) return
       const requestHeaders = parseResponseHeaders(request.getAllResponseHeaders())

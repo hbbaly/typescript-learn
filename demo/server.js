@@ -1,10 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const webpack = require('webpack')
+const path = require('path')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const WebpackConfig = require('./webpack.config')
-
+const multipart = require('connect-multiparty')
 const app = express()
 const compiler = webpack(WebpackConfig)
 const router = express.Router()
@@ -27,6 +28,9 @@ app.use(express.static(__dirname))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(multipart({
+  uploadDir: path.resolve(__dirname, 'upload-file')
+}))
 router.get('/simple/get', (req, res) => {
   res.send ({
     msg: 'axios simple'
@@ -138,6 +142,11 @@ router.post('/cancel/post', (req, res) => {
 router.get('/more/get', (req, res) => {
   res.send({
     name: 'hbbaly'
+  })
+})
+router.post('/more/upload', (req, res) => {
+  res.send({
+    name: 'progress'
   })
 })
 app.use(router)

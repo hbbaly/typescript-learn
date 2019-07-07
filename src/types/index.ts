@@ -31,6 +31,8 @@ export interface AxiosConfig {
   withCredentials?: boolean
   xsrfCookieName?: string
   xsrfHeaderName?: string
+  onDownLoadProcess? (e: ProgressEvent):void
+  onUploadProgress?: (e: ProgressEvent) => void
 }
 export interface AxiosResponseConfig<T = any> {
   data: T
