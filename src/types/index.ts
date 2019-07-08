@@ -27,12 +27,13 @@ export interface AxiosConfig {
   timeout?: number
   transformRequest?: Transformer|Transformer[]
   transformResponse?: Transformer|Transformer[]
-  cancelToken: CancelToken
+  cancelToken?: CancelToken
   withCredentials?: boolean
   xsrfCookieName?: string
   xsrfHeaderName?: string
   onDownLoadProcess? (e: ProgressEvent):void
   onUploadProgress?: (e: ProgressEvent) => void
+  auth?: AxiosBasicCredentials
 }
 export interface AxiosResponseConfig<T = any> {
   data: T
@@ -121,5 +122,9 @@ export interface Cancel {
 
 export interface CancelStatic {
   new(message?: string): Cancel
+}
+export interface AxiosBasicCredentials {
+  username: string
+  password: string
 }
 

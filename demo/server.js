@@ -9,6 +9,7 @@ const multipart = require('connect-multiparty')
 const app = express()
 const compiler = webpack(WebpackConfig)
 const router = express.Router()
+const atob = require('atob')
 require('./server2')
 app.use(webpackDevMiddleware(compiler, {
   publicPath: '/__build__/',
@@ -148,6 +149,16 @@ router.post('/more/upload', (req, res) => {
   res.send({
     name: 'progress'
   })
+})
+router.post('/auth/post', function(req, res) {
+  const auth = req.headers.authorization
+  const [type, credentials] = auth.split(' ')
+  const [username, password] = atob(credentials).split(':')
+  if (type === 'Basic' && username === 'Yee' && password === '123456') {
+    res.json(req.body)
+  } else {
+    res.end('UnAuthorization')
+  }
 })
 app.use(router)
 const port = process.env.PORT || 8080

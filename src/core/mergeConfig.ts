@@ -24,7 +24,7 @@ function deepMergeStrat (val1:any, val2: any): any {
   }
 }
 // headers 属性需要进行合并
-const stratKeysDeepMerge = ['headers']
+const stratKeysDeepMerge = ['headers', 'auth']
 
 stratKeysDeepMerge.forEach(key => {
   strats[key] = deepMergeStrat

@@ -6,7 +6,7 @@ import cookie from './helpers/cookies';
 import { isFormData } from './helpers/utils';
 export default function xhr(config: AxiosConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { url, data = null, method = 'get',headers = {}, responseType, timeout, cancelToken, withCredentials,xsrfCookieName, xsrfHeaderName,onDownLoadProcess,onUploadProgress} = config
+    const { url, data = null, method = 'get',headers = {}, responseType, timeout, cancelToken, withCredentials,xsrfCookieName, xsrfHeaderName,onDownLoadProcess,onUploadProgress, auth} = config
     const request = new XMLHttpRequest()
 
     if (responseType) request.responseType = responseType
@@ -49,6 +49,7 @@ export default function xhr(config: AxiosConfig): AxiosPromise {
       request.onprogress = onDownLoadProcess
     }
     if (onUploadProgress) request.upload.onprogress = onUploadProgress
+    if (auth) headers['Authorization'] = 'Basic ' + btoa(auth.username + ':' + auth.password)
     request.onreadystatechange = function handle () {
       if (request.readyState !== 4 || request.status === 0) return
       const requestHeaders = parseResponseHeaders(request.getAllResponseHeaders())
