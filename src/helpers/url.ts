@@ -1,27 +1,34 @@
-import {isDate, isPlainObject, encode} from './utils'
-export function buildURL (url: string, params?: any): string {
+import {isDate, isPlainObject, encode, isURLSearchParams} from './utils'
+export function buildURL (url: string, params?: any, paramsSerializer?: (params: any) => string): string {
   // 不传params， url不做处理
   let parts:string[] = []
   let urlParams
   if (!params) return url
-  Object.keys(params).forEach((key) => {
-    let val = params[key]
-    if (val === null || val === 'undefined') return
-    let values = []
-    // 是数组
-    if (Array.isArray(val)) {
-      values = val
-      key +='[]'
-    } else {
-      values = [val]
-    }
-    values.forEach(val => {
-      if (isDate(val)) val = val.toISOString()
-      if (isPlainObject(val)) val = JSON.stringify(val)
-      parts.push(`${encode(key)} = ${encode(val)}`)
+
+  if (paramsSerializer) {
+    urlParams = paramsSerializer(params)
+  } else if (isURLSearchParams(params)) {
+    urlParams = params.toString()
+  } else {
+    Object.keys(params).forEach((key) => {
+      let val = params[key]
+      if (val === null || val === 'undefined') return
+      let values = []
+      // 是数组
+      if (Array.isArray(val)) {
+        values = val
+        key +='[]'
+      } else {
+        values = [val]
+      }
+      values.forEach(val => {
+        if (isDate(val)) val = val.toISOString()
+        if (isPlainObject(val)) val = JSON.stringify(val)
+        parts.push(`${encode(key)} = ${encode(val)}`)
+      })
     })
-  })
-  urlParams = parts.join('&')
+    urlParams = parts.join('&')
+  }
   if (urlParams) {
     // 去除哈希标示
     let index = url.indexOf('#')

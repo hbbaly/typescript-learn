@@ -164,6 +164,11 @@ router.get('/more/304', function(req, res) {
   res.status(304)
   res.end()
 })
+router.get('/more/get', function(req, res) {
+  res.send({
+    name: 'hbbaly'
+  })
+})
 app.use(router)
 const port = process.env.PORT || 8080
 module.exports = app.listen(port, () => {
