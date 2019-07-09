@@ -160,6 +160,10 @@ router.post('/auth/post', function(req, res) {
     res.end('UnAuthorization')
   }
 })
+router.get('/more/304', function(req, res) {
+  res.status(304)
+  res.end()
+})
 app.use(router)
 const port = process.env.PORT || 8080
 module.exports = app.listen(port, () => {

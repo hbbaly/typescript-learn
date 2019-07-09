@@ -12,6 +12,9 @@ const defaults: AxiosConfig = {
       Accept: 'application/json, text/plain, */*'
     }
   },
+  validateStatus(status: number): boolean {
+    return status >= 200 && status < 300
+  },
   // transformRequest 和 transformResponse 两个字段，它们的值是一个数组或者是一个函数。
   // 当值为数组的时候，数组的每一个函数都是一个转换函数，数组中的函数就像管道一样依次执行，前者的输出作为后者的输入。
   transformRequest: [
@@ -36,4 +39,5 @@ const methodWithNoData = ['delete', 'get', 'head', 'options']
 methodWithNoData.forEach(method => {
   defaults.headers[method] = {}
 })
+
 export default defaults
